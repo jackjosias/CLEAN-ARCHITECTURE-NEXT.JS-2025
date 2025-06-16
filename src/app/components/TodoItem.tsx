@@ -60,27 +60,27 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete, onUpdate 
   };
 
   return (
-    <li className={`p-4 mb-4 rounded-lg shadow-md ${todo.completed ? 'bg-gray-200 line-through' : 'bg-white'} ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+    <li className={`p-4 mb-4 rounded-lg shadow-md border border-gray-300 bg-white transition-all duration-300 ease-in-out ${todo.completed ? 'opacity-70 line-through' : ''} ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}>
       {isEditing ? (
-        // Edit Mode
         <div className="flex flex-col space-y-3">
           <input
             type="text"
             value={editedTitle}
             onChange={(e) => setEditedTitle(e.target.value)}
-            className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder:text-gray-400 transition duration-150 ease-in-out bg-white"
             disabled={isLoading}
           />
           <textarea
             value={editedDescription}
             onChange={(e) => setEditedDescription(e.target.value)}
-            className="p-2 border rounded-md h-24 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            rows={3}
+            className="p-2 border border-gray-300 rounded-md h-24 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder:text-gray-400 transition duration-150 ease-in-out bg-white"
             disabled={isLoading}
           />
           <select
             value={editedPriority}
             onChange={(e) => setEditedPriority(e.target.value as TodoPriority)}
-            className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 transition duration-150 ease-in-out bg-white"
             disabled={isLoading}
           >
             {Object.values(TodoPriority).map(priority => (
@@ -90,14 +90,14 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete, onUpdate 
           <div className="flex space-x-2">
             <button
               onClick={handleUpdate}
-              className="flex-1 bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition duration-200 disabled:bg-gray-400"
+              className="flex-1 flex justify-center py-2 px-4 rounded-md shadow-sm text-sm font-heading font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out"
               disabled={isLoading}
             >
               Sauvegarder
             </button>
             <button
               onClick={handleCancelEdit}
-              className="flex-1 bg-gray-500 text-white p-2 rounded-md hover:bg-gray-600 transition duration-200 disabled:bg-gray-400"
+              className="flex-1 flex justify-center py-2 px-4 rounded-md shadow-sm text-sm font-heading font-medium border border-gray-300 text-gray-700 bg-transparent hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out"
               disabled={isLoading}
             >
               Annuler
@@ -105,44 +105,47 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete, onUpdate 
           </div>
         </div>
       ) : (
-        // View Mode
         <div className="flex flex-col">
           <div className="flex items-center mb-2">
             <input
               type="checkbox"
               checked={todo.completed}
               onChange={handleToggle}
-              className="mr-3 h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:opacity-50"
+              className="mr-3 h-5 w-5 focus:ring-blue-500 border-gray-300 rounded disabled:opacity-50 cursor-pointer transition duration-150 ease-in-out"
               disabled={isLoading}
             />
-            <h3 className={`text-xl font-semibold ${todo.completed ? 'text-gray-500 line-through' : 'text-gray-800'}`}>{todo.title}</h3>
+            {/* Use a span for 'Completed' text associated with the checkbox */}
+            <span className={`${todo.completed ? 'text-gray-500' : 'text-gray-900'} font-body mr-3`}>Completed</span>
+            <h3 className={`flex-1 text-xl font-heading font-semibold ${todo.completed ? 'text-gray-500 line-through' : 'text-gray-900'}`}>{todo.title}</h3> {/* Use flex-1 to allow title to take available space */}
             <span className={`ml-auto text-sm px-2 py-1 rounded-full text-white ${priorityColors[todo.priority]}`}>
               {todo.priority}
             </span>
           </div>
-          <p className={`${todo.completed ? 'text-gray-500 line-through' : 'text-gray-600'} mb-4`}>{todo.description}</p>
-          
-          <div className="flex space-x-2 text-sm">
+          <p className={`${todo.completed ? 'text-gray-500 line-through' : 'text-gray-800'} mb-4 font-body`}>{todo.description}</p>
+
+          <div className="flex space-x-2 text-sm font-body">
             <button
               onClick={() => setIsEditing(true)}
-              className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition duration-200 disabled:opacity-50"
+              className="text-blue-600 px-3 py-1 rounded-md hover:text-blue-800 transition duration-150 ease-in-out disabled:opacity-50 cursor-pointer"
               disabled={isLoading}
             >
               Modifier
             </button>
+            {/* Delete Button - Use attention color (Tailwind default red) */}
             <button
               onClick={handleDelete}
-              className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition duration-200 disabled:opacity-50"
+              className="text-red-600 px-3 py-1 rounded-md hover:text-red-800 transition duration-150 ease-in-out disabled:opacity-50 cursor-pointer"
               disabled={isLoading}
             >
               Supprimer
             </button>
           </div>
-           {isLoading && <p className="text-center text-blue-600 mt-2">Chargement...</p>}
+           {isLoading && <p className="text-center text-blue-600 mt-2 font-body">Chargement...</p>}
         </div>
       )}
     </li>
   );
 };
+
 
 export default TodoItem;

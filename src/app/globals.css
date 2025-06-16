@@ -1,5 +1,72 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@300;400&display=swap');
 
-/* Ajoutez vos styles globaux personnalisés ici */
+:root {
+  --color-primary: #007BFF; /* Bleu-vert */
+  --color-secondary: #FF8C00; /* Orange Doux */
+  --color-tertiary: #F8F9FA; /* Gris Très Clair */
+  --color-neutral: #FFFFFF; /* Blanc Pur */
+  --color-text-primary: var(--color-neutral); /* Blanc Pur pour meilleur contraste */
+  --color-text-black: #000;
+  --color-text-secondary: #6C757D; /* Gris Moyen */
+  --color-border: #DEE2E6; /* Gris Clair */
+  --color-success: #28A745; /* Vert Franc */
+  --color-danger: #DC3545; /* Rouge */
+  --color-placeholder: var(--color-text-secondary);
+  --color-form-background: var(--color-neutral); /* Gris foncé pour le fond du formulaire */
+
+  --font-heading: 'Montserrat', sans-serif;
+  --font-body: 'Roboto', sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  background-image: url('/background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  /* Optionnel: scroll-behavior pour un défilement doux si ancres */
+  scroll-behavior: smooth;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* Préparation pour animations reveal-on-scroll */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Style de base pour les éléments cliquables */
+button, a, input[type="checkbox"], [role="button"] {
+  cursor: pointer;
+}
+
+/* Styles pour les placeholders avec les nouvelles couleurs */
+::placeholder {
+  color: var(--color-text-secondary);
+  opacity: 1; /* Override default browser opacity */
+}
+
+/* Styles de focus pour les éléments interactifs */
+input:focus, textarea:focus, select:focus, button:focus, a:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Utilisation d'une version transparente de la couleur Primaire */
+}
+
+/* Amélioration du style par défaut de la checkbox */
+input[type="checkbox"] {
+  /* Add if needed based on default browser styling */
+  accent-color: var(--color-success);
+}
+

@@ -72,7 +72,14 @@ export async function DELETE(
   if (result.error) {
     return NextResponse.json({ error: result.error }, { status: result.status });
   } else {
-    return NextResponse.json({}, { status: result.status });
+    // If no error, check the status code
+    if (result.status === 204) {
+      // For 204 No Content, return response without body
+      return new NextResponse(null, { status: 204 });
+    } else {
+      // For any other successful status code, return an empty JSON object as originally intended.
+      return NextResponse.json({}, { status: result.status });
+    }
   }
 }
 
